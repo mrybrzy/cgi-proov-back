@@ -18,8 +18,11 @@ public class MovieController {
         return movieService.getAllMovies();
     }
 
-    @GetMapping("/search/{genre}")
-    public List<MovieDto> getMoviesByGenre(@PathVariable("genre") String genre) {
-        return movieService.getMoviesByGenre(genre);
+    @GetMapping("/search/{genre}/{age}/{start}/{language}")
+    public List<MovieDto> getMoviesByGenre(@PathVariable("genre") String genre,
+                                           @PathVariable("age") Integer age,
+                                           @PathVariable("start") String start,
+                                           @PathVariable("language") String language) {
+        return movieService.getMoviesFiltered(genre, age, start, language);
     }
 }
