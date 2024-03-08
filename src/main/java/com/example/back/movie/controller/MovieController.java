@@ -25,4 +25,8 @@ public class MovieController {
                                            @PathVariable("language") String language) {
         return movieService.getMoviesFiltered(genre, age, start, language);
     }
+    @GetMapping("/movie/{movie_id}")
+    public MovieDto getMovieById(@PathVariable("movie_id") Long movieId) {
+        return movieService.getMovieById(movieId);
+    }
 }

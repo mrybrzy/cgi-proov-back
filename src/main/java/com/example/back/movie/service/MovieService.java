@@ -82,4 +82,8 @@ public class MovieService {
         }
         return matches;
     }
+
+    public MovieDto getMovieById(Long movieId) {
+        return movieMapper.toDto(movieRepository.getReferenceById(movieId));
+    }
 }
