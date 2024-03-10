@@ -37,8 +37,9 @@ public class SeatService {
             }
         }
 
+        sumsAndCombinationsConsecutive.clear();
+        sumsAndCombinationsNotConsecutive.clear();
         List<List<Integer>> consecutiveSeatsAvailable = findConsecutiveSeatRanges(available, capacity);
-        System.out.println(consecutiveSeatsAvailable);
         List<List<Integer>> consecutiveSeats = findConsecutiveSeatRanges(seats, capacity);
 
         float middle = getMiddleValue(capacity, consecutiveSeats);
@@ -51,8 +52,6 @@ public class SeatService {
             bestCombination = getBestCombination(sumsAndCombinationsNotConsecutive, middle);
         }
 
-
-        System.out.println(bestCombination);
         return bestCombination;
     }
 
