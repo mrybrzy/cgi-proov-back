@@ -2,6 +2,7 @@ package com.example.back.seat.service;
 
 import com.example.back.seat.dto.SeatDto;
 import com.example.back.seat.dto.SeatMapper;
+import com.example.back.seat.entity.SeatEntity;
 import com.example.back.seat.repository.SeatRepository;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.misc.Pair;
@@ -24,7 +25,22 @@ public class SeatService {
                 seatsByMovie.add(seatDto);
             }
         }
+        seatsByMovie.sort(Comparator.comparingInt(SeatDto::seatNumber));
         return seatsByMovie;
+    }
+
+    public void bookSeat(Long seatId, Long movieId) {
+        List<SeatDto> seats = getSeatsByMovieId(movieId);
+        for (SeatDto seat : seats) {
+            if (seat.seatId() == seatId) {
+                seatRepository.deleteById(seatId);
+                SeatEntity entity = seatMapper.toEntity(seat);
+                entity.setIsBooked(true);
+                seatRepository.save(entity);
+
+
+            }
+        }
     }
 
     public List<Integer> getRecommendedSeats(Long movieId, Integer capacity) {
@@ -124,6 +140,8 @@ public class SeatService {
     private boolean isConsecutive(List<Integer> toCheck) {
         for (int i = 1; i < toCheck.size(); i++) {
             if (toCheck.get(i) != toCheck.get(i - 1) + 1) {
+                return false;
+            } else if (toCheck.get(i) % 10 != 0 && toCheck.get(i - 1) % 10 == 0) {
                 return false;
             }
         }

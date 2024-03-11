@@ -26,6 +26,8 @@ public class MovieEntity {
     private String startTime;
     @Column(name = "run_time")
     private String runTime;
+    @Column(name = "price")
+    private String price;
     @Column(name = "image")
     private String image;
     @Column(name = "description")

@@ -9,6 +9,7 @@ CREATE TABLE movies
     language     VARCHAR(3) NOT NULL,
     start_time   TIME,
     run_time     TIME,
+    price        INT DEFAULT 7,
     image        VARCHAR      NOT NULL,
     description  VARCHAR(255) NOT NULL
 );
