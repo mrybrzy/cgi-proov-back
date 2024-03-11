@@ -7,10 +7,5 @@ CREATE TABLE client
     password  VARCHAR(255) NOT NULL
 );
 
-INSERT INTO client (username, name, password)
-VALUES ('alice123', 'Alice', 'password123'),
-       ('bob456', 'Bob', 'securePass'),
-       ('charlie789', 'Charlie', 'letmein'),
-       ('eva111', 'Eva', 'p@ssw0rd'),
-       ('frank222', 'Frank', 'secretPass'),
-       ('zara333', 'Zara', 'zaraPass');
+INSERT INTO client(username, name, password)
+VALUES ('mari@test.com', 'mari', '$2a$10$dLAzMJURDA3zL6WREwwe3.ER/SVU88HAGYclu7/TI9plxXIxkbqnq')
