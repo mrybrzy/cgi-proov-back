@@ -3,6 +3,10 @@ package com.example.back.movie.controller;
 import com.example.back.movie.dto.MovieDto;
 import com.example.back.movie.service.MovieService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +42,7 @@ public class MovieController {
 
     @GetMapping("/search/time/{start}")
     public List<MovieDto> getMoviesByTime(@PathVariable("start") Integer start) {
+        System.out.println(start);
         return movieService.getMoviesByTime(start);
     }
 
@@ -122,6 +127,12 @@ public class MovieController {
                                            @PathVariable("language") String language) {
         return movieService.getMoviesFiltered(genre, age, start, language);
     }
+
+//    @GetMapping("/search/age/{age}/page")
+//    public Page<MovieDto> getMoviesFiltered(@PathVariable("age") Integer age,
+//                                            @PageableDefault(sort = "recommendation", direction = Sort.Direction.ASC, size = 24) Pageable pageable) {
+//        return movieService.getMoviesFilteredPage(age, pageable);
+//    }
 
 
 }

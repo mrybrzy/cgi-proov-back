@@ -1,5 +1,6 @@
 package com.example.back.user.controller;
 
+import com.example.back.movie.service.MovieService;
 import com.example.back.user.dto.UserDto;
 import com.example.back.user.request.CreateUserRequest;
 import com.example.back.user.request.LoginUserRequest;
@@ -13,6 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final MovieService movieService;
     @PostMapping("/public/register")
     public void registerUser(@RequestBody CreateUserRequest request) {
         userService.registerUser(request);
@@ -26,7 +28,7 @@ public class UserController {
         return userService.getUserByUsername(username);
     }
     @GetMapping("/recommendation/{username}")
-    public List<Integer> getRecommendation(@PathVariable("username") String username) {
-        return userService.getRecommendation(username);
+    public void getRecommendation(@PathVariable("username") String username) {
+        userService.getRecommendation(username);
     }
 }

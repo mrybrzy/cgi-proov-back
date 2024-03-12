@@ -82,16 +82,13 @@ public class UserService {
         return match;
     }
 
-    public List<Integer> getRecommendation(String username) {
+    public void getRecommendation(String username) {
         Map<String, Integer> genresInMovies = new HashMap<>();
         List<BookingDto> bookings = bookingService.getBookingsByClient(username);
         Integer moviesWatched = bookings.size();
-        if (moviesWatched == 0) {
-            return new ArrayList<>();
-        }
         Map<String, Integer> allWatched = collectAllWatchedGenres(bookings, genresInMovies);
         Map<String, Integer> percentage = calculateRecommendationPercentage(allWatched, moviesWatched);
-        return assignPercentage(percentage);
+        assignPercentage(percentage);
 
     }
     private Map<String, Integer> collectAllWatchedGenres(List<BookingDto> bookings, Map<String, Integer> genresInMovies) {
@@ -114,17 +111,17 @@ public class UserService {
         return percentageMap;
     }
 
-    private List<Integer> assignPercentage(Map<String, Integer> percentageMap) {
+    private void assignPercentage(Map<String, Integer> percentageMap) {
         List<MovieDto> allMovies = movieService.getAllMovies();
-        List<Integer> recommendations = new ArrayList<>();
         for (MovieDto movieDto : allMovies) {
             String[] genres = movieDto.genre().split(", ");
-            Integer percentage = putPercentage(genres, percentageMap);
-            recommendations.add(percentage);
+            Long movieId = movieDto.movieId();
+            putPercentage(genres, percentageMap, movieId);
+
         }
-        return recommendations;
+
     }
-    private Integer putPercentage(String[] genres, Map<String, Integer> percentageMap) {
+    private void putPercentage(String[] genres, Map<String, Integer> percentageMap, Long movieId) {
         Integer per = 0;
         for (String genre : genres) {
             if (percentageMap.containsKey(genre.toLowerCase())) {
@@ -132,6 +129,7 @@ public class UserService {
             }
         }
         per = per / genres.length;
-        return per;
+        movieService.updateMovie(movieId, per);
+
     }
 }
