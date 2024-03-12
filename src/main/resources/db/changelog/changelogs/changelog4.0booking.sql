@@ -1,3 +1,5 @@
+--changeset mabere:4
+
 CREATE TABLE booking
 (
     booking_id SERIAL PRIMARY KEY,

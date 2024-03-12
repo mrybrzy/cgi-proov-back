@@ -1,12 +1,11 @@
 --changeset mabere:3
 
 CREATE TABLE seats (
-    seat_id SERIAL PRIMARY KEY,
-    movie_id INT NOT NULL REFERENCES movies (movie_id),
-    seat_number INT,
-    is_booked BOOLEAN DEFAULT FALSE,
-    client VARCHAR(30)
-
+                       seat_id SERIAL PRIMARY KEY,
+                       movie_id INT NOT NULL REFERENCES movies (movie_id),
+                       seat_number INT,
+                       is_booked BOOLEAN DEFAULT FALSE,
+                       client VARCHAR(30)
 );
 
 INSERT INTO seats (movie_id, seat_number, is_booked, client)
@@ -23,7 +22,7 @@ FROM
      FROM
          generate_series(1, 24) AS movie_id
              CROSS JOIN
-         generate_series(1, 70) AS seat_number) AS subquery
+         generate_series(1, 70) AS seat_number) AS subquery;
 
 
 

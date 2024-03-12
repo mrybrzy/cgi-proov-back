@@ -1,6 +1,10 @@
 package com.example.back.user.service;
 
+import com.example.back.booking.dto.BookingDto;
+import com.example.back.booking.service.BookingService;
 import com.example.back.exception.ApplicationException;
+import com.example.back.movie.dto.MovieDto;
+import com.example.back.movie.service.MovieService;
 import com.example.back.security.JwtTokenProvider;
 import com.example.back.user.dto.UserDto;
 import com.example.back.user.dto.UserMapper;
@@ -14,15 +18,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final BookingService bookingService;
+    private final MovieService movieService;
     private final UserMapper userMapper = new UserMapperImpl();
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -76,5 +80,58 @@ public class UserService {
             }
         }
         return match;
+    }
+
+    public List<Integer> getRecommendation(String username) {
+        Map<String, Integer> genresInMovies = new HashMap<>();
+        List<BookingDto> bookings = bookingService.getBookingsByClient(username);
+        Integer moviesWatched = bookings.size();
+        if (moviesWatched == 0) {
+            return new ArrayList<>();
+        }
+        Map<String, Integer> allWatched = collectAllWatchedGenres(bookings, genresInMovies);
+        Map<String, Integer> percentage = calculateRecommendationPercentage(allWatched, moviesWatched);
+        return assignPercentage(percentage);
+
+    }
+    private Map<String, Integer> collectAllWatchedGenres(List<BookingDto> bookings, Map<String, Integer> genresInMovies) {
+        for (BookingDto bookingDto : bookings) {
+            MovieDto movieDto = movieService.getMovieById(Long.valueOf(bookingDto.movieId()));
+            String[] genres = movieDto.genre().split(", ");
+            for (String genre : genres) {
+                genresInMovies.put(genre.toLowerCase(), genresInMovies.getOrDefault(genre.toLowerCase(), 0) + 1);
+            }
+        }
+        return genresInMovies;
+    }
+
+    private Map<String, Integer> calculateRecommendationPercentage(Map<String, Integer> watched, Integer bookingsCount) {
+        Map<String, Integer> percentageMap = new HashMap<>();
+        for (Map.Entry<String, Integer> entry : watched.entrySet()) {
+            Integer presentInFilms = entry.getValue();
+            percentageMap.put(entry.getKey(), (int) (((float) presentInFilms / bookingsCount) * 100));
+        }
+        return percentageMap;
+    }
+
+    private List<Integer> assignPercentage(Map<String, Integer> percentageMap) {
+        List<MovieDto> allMovies = movieService.getAllMovies();
+        List<Integer> recommendations = new ArrayList<>();
+        for (MovieDto movieDto : allMovies) {
+            String[] genres = movieDto.genre().split(", ");
+            Integer percentage = putPercentage(genres, percentageMap);
+            recommendations.add(percentage);
+        }
+        return recommendations;
+    }
+    private Integer putPercentage(String[] genres, Map<String, Integer> percentageMap) {
+        Integer per = 0;
+        for (String genre : genres) {
+            if (percentageMap.containsKey(genre.toLowerCase())) {
+                per += percentageMap.get(genre.toLowerCase());
+            }
+        }
+        per = per / genres.length;
+        return per;
     }
 }
