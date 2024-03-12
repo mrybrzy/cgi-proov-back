@@ -14,6 +14,9 @@ public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
 
+    private Integer getRecommendationPercent() {
+        return 0;
+    }
     public List<MovieDto> getAllMovies() {
         return movieMapper.toDtoList(movieRepository.findAll());
     }

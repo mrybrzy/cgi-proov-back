@@ -7,21 +7,26 @@ import com.example.back.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/public")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    @PostMapping("/register")
+    @PostMapping("/public/register")
     public void registerUser(@RequestBody CreateUserRequest request) {
         userService.registerUser(request);
     }
-    @PostMapping("/login")
+    @PostMapping("/public/login")
     public String login(@RequestBody LoginUserRequest request) {
         return userService.login(request);
     }
     @GetMapping("/user/{username}")
     public UserDto getUserByUsername(@PathVariable("username") String username) {
         return userService.getUserByUsername(username);
+    }
+    @GetMapping("/recommendation/{username}")
+    public List<Integer> getRecommendation(@PathVariable("username") String username) {
+        return userService.getRecommendation(username);
     }
 }
