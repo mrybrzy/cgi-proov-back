@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Time;
+
 @Entity
 @Getter
 @Setter
@@ -27,9 +29,11 @@ public class MovieEntity {
     @Column(name = "run_time")
     private String runTime;
     @Column(name = "price")
-    private String price;
+    private Integer price;
     @Column(name = "image")
     private String image;
     @Column(name = "description")
     private String description;
+    @Column(name = "recommendation")
+    private Integer recommendation;
 }

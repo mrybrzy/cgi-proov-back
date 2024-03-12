@@ -7,11 +7,12 @@ CREATE TABLE movies
     genre          VARCHAR(50),
     age_limit      BIGINT,
     language       VARCHAR(3)   NOT NULL,
-    start_time     TIME,
-    run_time       TIME,
+    start_time     VARCHAR(8),
+    run_time       VARCHAR(8),
     price          INT DEFAULT 7,
     image          VARCHAR      NOT NULL,
-    description    VARCHAR(255) NOT NULL
+    description    VARCHAR(255) NOT NULL,
+    recommendation INTEGER
 );
 
 -- action comedy drama thriller romance fantasy adventure
@@ -85,7 +86,7 @@ VALUES ('The Avengers', 'Action, Fantasy, Drama', 12, 'EST', '10:00:00', '2:40:0
         'A group of superheroes team up to save the world.');
 
 INSERT INTO movies (movie_name, genre, age_limit, language, start_time, run_time, image, description)
-VALUES ('Inception', 'Action, Thriller, Fantasy, Adventure', 12, 'EST', '9:30:00', '2:30:00',
+VALUES ('Inception', 'Action, Thriller, Fantasy, Adventure', 12, 'EST', '10:30:00', '2:30:00',
         'https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p7825626_p_v8_af.jpg',
         'A mind-bending heist thriller directed by Christopher Nolan, where skilled thieves enter people''s dreams to steal their deepest secrets. The film explores the layers of reality and challenges the boundaries of the subconscious mind.');
 
