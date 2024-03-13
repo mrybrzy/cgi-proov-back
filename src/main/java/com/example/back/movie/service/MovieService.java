@@ -4,10 +4,7 @@ import com.example.back.movie.dto.MovieDto;
 import com.example.back.movie.dto.MovieMapper;
 import com.example.back.movie.entity.MovieEntity;
 import com.example.back.movie.repository.MovieRepository;
-import com.example.back.seat.dto.SeatDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -20,7 +17,9 @@ public class MovieService {
 
     public List<MovieDto> getAllMovies() {
         List<MovieDto> all = movieMapper.toDtoList(movieRepository.findAll());
-        all.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        all.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return all;
     }
 
@@ -37,7 +36,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
 
     }
@@ -50,7 +51,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -69,7 +72,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -81,7 +86,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -105,7 +112,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -124,7 +133,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -138,7 +149,9 @@ public class MovieService {
                 matches.add(movieDto);
             }
         }
-        matches.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        matches.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return matches;
     }
 
@@ -152,7 +165,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -167,7 +182,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -181,7 +198,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -195,7 +214,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -210,7 +231,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -224,7 +247,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -239,7 +264,9 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
 
@@ -254,10 +281,13 @@ public class MovieService {
                 match.add(movieDto);
             }
         }
-        match.sort(Comparator.comparingInt(MovieDto::recommendation).reversed());
+        match.sort(Comparator.comparingInt(MovieDto::recommendation)
+                .thenComparing(MovieDto::rating)
+                .reversed());
         return match;
     }
-    public void updateMovie(Long movieId, Integer recommendation) {
+
+    public void updateMovieRecommendation(Long movieId, Integer recommendation) {
         Optional<MovieEntity> optionalMovieEntity = movieRepository.findById(movieId);
         MovieDto movieDto = getMovieById(movieId);
         MovieEntity mappedMovie = movieMapper.toEntity(movieDto);
@@ -279,12 +309,30 @@ public class MovieService {
 
             movieRepository.save(existingMovieEntity);
         }
-
     }
 
+    public void updateMovieRating(Long movieId, Float rating) {
+        Optional<MovieEntity> optionalMovieEntity = movieRepository.findById(movieId);
+        MovieDto movieDto = getMovieById(movieId);
+        MovieEntity mappedMovie = movieMapper.toEntity(movieDto);
 
-    public Page<MovieDto> getMoviesFilteredPage(Integer age, Pageable pageable) {
-        Page<MovieEntity> page = movieRepository.findAllOrderByRecommendation(age, pageable);
-        return movieMapper.toDtoPage(page);
+        if (optionalMovieEntity.isPresent()) {
+            MovieEntity existingMovieEntity = optionalMovieEntity.get();
+
+            existingMovieEntity.setMovieId(mappedMovie.getMovieId());
+            existingMovieEntity.setMovieName(mappedMovie.getMovieName());
+            existingMovieEntity.setGenre(mappedMovie.getGenre());
+            existingMovieEntity.setAgeLimit(mappedMovie.getAgeLimit());
+            existingMovieEntity.setLanguage(mappedMovie.getLanguage());
+            existingMovieEntity.setStartTime(mappedMovie.getStartTime());
+            existingMovieEntity.setRunTime(mappedMovie.getRunTime());
+            existingMovieEntity.setPrice(mappedMovie.getPrice());
+            existingMovieEntity.setImage(mappedMovie.getImage());
+            existingMovieEntity.setDescription(mappedMovie.getDescription());
+            existingMovieEntity.setRecommendation(mappedMovie.getRecommendation());
+            existingMovieEntity.setRating(rating);
+
+            movieRepository.save(existingMovieEntity);
+        }
     }
 }

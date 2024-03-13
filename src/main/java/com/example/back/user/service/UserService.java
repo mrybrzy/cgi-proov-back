@@ -129,7 +129,7 @@ public class UserService {
             }
         }
         per = per / genres.length;
-        movieService.updateMovie(movieId, per);
+        movieService.updateMovieRecommendation(movieId, per);
 
     }
 }
