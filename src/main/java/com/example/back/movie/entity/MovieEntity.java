@@ -36,4 +36,6 @@ public class MovieEntity {
     private String description;
     @Column(name = "recommendation")
     private Integer recommendation;
+    @Column(name = "rating")
+    private Float rating;
 }
