@@ -2,11 +2,9 @@ package com.example.back.api.service;
 
 import com.example.back.movie.dto.MovieDto;
 import com.example.back.movie.service.MovieService;
-import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,6 +17,10 @@ import java.util.List;
 public class RatingService {
     private final MovieService movieService;
 
+    /**
+     * Assign rating to every movie.
+     * Iterate through all movies and call update movie rating to assign new rating.
+     */
     public void assignRating() {
         List<MovieDto> movieDtoList = movieService.getAllMovies();
         for (MovieDto movieDto : movieDtoList) {
@@ -28,6 +30,12 @@ public class RatingService {
 
 
     }
+
+    /**
+     * Get movie rating by calling api.
+     * @param movieName name of the movie which rating is needed.
+     * @return float value of movie rating formatted to have only once place after comma.
+     */
     public Float getRating(String movieName) {
         String rating = "";
         movieName = movieName.replace(" ", "+");
@@ -47,8 +55,6 @@ public class RatingService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Float responseFloat = Float.valueOf(rating);
-//        String formatted = String.format("%.2f", responseFloat);
-        return responseFloat;
+        return Float.valueOf(rating);
     }
 }

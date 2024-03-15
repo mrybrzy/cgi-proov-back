@@ -122,6 +122,8 @@ public class MovieController {
                                            @PathVariable("language") String language) {
         return movieService.getMoviesFiltered(genre, age, start, language);
     }
+    @GetMapping("/recommendation")
+    public void removeRecommendation() {
+        movieService.removeRecommendation();
+    }
 }
-
-

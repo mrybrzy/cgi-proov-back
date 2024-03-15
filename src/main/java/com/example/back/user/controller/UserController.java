@@ -31,4 +31,5 @@ public class UserController {
     public void getRecommendation(@PathVariable("username") String username) {
         userService.getRecommendation(username);
     }
+
 }
