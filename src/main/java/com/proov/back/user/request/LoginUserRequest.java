@@ -1,0 +1,15 @@
+package com.proov.back.user.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@ToString
+public class LoginUserRequest {
+    private String username;
+    private String password;
+}
